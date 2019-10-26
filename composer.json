@@ -1,0 +1,42 @@
+{
+    "name": "neznajki/json-rpc-client-base",
+    "description": "Client Base for Json Rpc Requests",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Maris Locmelis",
+            "email": "neznajki@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "JsonRpcClientBase\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\JsonRpcClientBase\\": "tests/src"
+        }
+    },
+    "require": {
+        "php": ">=7.3",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "neznajki/json-rpc-common": "^1.1"
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git@github.com:Neznajki/codeception-test-engine.git"
+        },
+        {
+            "type": "git",
+            "url": "git@github.com:Neznajki/json-rpc-common.git"
+        }
+    ],
+    "require-dev": {
+        "neznajki/codeception-test-engine": "^0.1.1"
+    }
+}

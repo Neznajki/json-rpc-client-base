@@ -1,0 +1,18 @@
+paths:
+    tests: tests
+    output: tests/_output
+    data: tests/_data
+    support: tests/_support
+    envs: tests/_envs
+actor_suffix: Tester
+extensions:
+    enabled:
+        - Codeception\Extension\RunFailed
+        - Tests\Neznajka\Codeception\Engine\Extension\StaticUnitTestsExtension
+
+
+#php vendor/bin/codecept run unit --coverage --html
+coverage:
+    enabled: true
+    include:
+        - src/*

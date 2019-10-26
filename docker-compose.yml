@@ -1,0 +1,29 @@
+version: "3.3"
+
+services:
+    json-rpc-client-base:
+        hostname: json-rpc-client-base.local
+        container_name: json-rpc-client-base
+        image: docker.pkg.github.com/neznajki/docker-php73/apache:latest
+        volumes:
+            - .:/www/default:cached
+            - $HOME/.bashrc:$HOME/.bashrc:cached
+            - $HOME/.profile:$HOME/.profile:cached
+            - $HOME/.composer:$HOME/.composer:cached
+            - $HOME/.cache/:$HOME/.cache:cached
+            - /opt/phpstorm-coverage/:/opt/phpstorm-coverage/:cached
+        ports:
+            - 80
+        dns:
+            - 8.8.8.8
+            - 10.252.252.252
+        environment:
+            - VIRTUAL_HOST=json-rpc-client-base.local
+            - HTTPS_METHOD=noredirect
+            - APACHE_DOCUMENT_ROOT=/www/default
+            - HOME=$HOME
+
+networks:
+    default:
+        external:
+            name: local_network
