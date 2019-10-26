@@ -29,6 +29,6 @@ class TestClient extends AbstractClient
      */
     protected function addPing(string $param1, int $param2): RequestEntity
     {
-        return $this->addRequest(__FUNCTION__, ['param1' => $param1, 'param2' => $param2]);
+        return $this->addRequest('ping', ['param1' => $param1, 'param2' => $param2]);
     }
 }
