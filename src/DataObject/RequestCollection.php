@@ -66,6 +66,6 @@ class RequestCollection implements JsonSerializable
      */
     public function jsonSerialize()
     {
-        return $this->collection;
+        return array_values($this->collection);
     }
 }

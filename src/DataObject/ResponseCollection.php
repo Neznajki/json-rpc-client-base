@@ -40,10 +40,28 @@ class ResponseCollection
         $this->requestCollection = $requestCollection;
 
         reset($responseData);
+
         if (key($responseData) === 0) {
             $this->addBatchResponse($requestCollection, $responseData);
         } else {
             $this->addSingleRequestResponse($requestCollection, $responseData);
+        }
+
+        foreach ($this->unknownCollection as $itemPos => $responseEntity) {
+            $request = $this->requestCollection->getRequestByPos($itemPos);
+
+            if ($this->getResponseById($request->getId())) {
+                throw new RuntimeException('unknown response could not be detected, mixed order of response items');
+            }
+
+            $this->addResponse(
+                new ResponseEntity(
+                    $this->requestCollection, [
+                        'id'    => $request->getId(),
+                        'error' => $responseEntity->getError(),
+                    ]
+                )
+            );
         }
     }
 
@@ -78,12 +96,12 @@ class ResponseCollection
             $this->addResponse(new ResponseEntity($this->requestCollection, $singleResponseData));
         } catch (RuntimeException $exception) {
             $uniqid                  = uniqid($requestNum . '_');
-            $this->unknownCollection = new ResponseEntity(
+            $this->unknownCollection[] = new ResponseEntity(
                 null,
                 [
                     'id'    => $uniqid,
                     'error' => [
-                        'message' => 'unknown response for request',
+                        'message' => sprintf('unknown response for request (%s)', $exception->getMessage()),
                         'code'    => -32603,
                     ],
                 ]
@@ -105,23 +123,6 @@ class ResponseCollection
 
         foreach ($responseData as $requestNum => $singleResponseData) {
             $this->createResponseEntity($singleResponseData, $requestNum);
-        }
-
-        foreach ($this->unknownCollection as $itemPos => $responseEntity) {
-            $request = $this->requestCollection->getRequestByPos($itemPos);
-
-            if ($this->getResponseById($request->getId())) {
-                throw new RuntimeException('unknown response could not be detected, mixed order of response items');
-            }
-
-            $this->addResponse(
-                new ResponseEntity(
-                    $this->requestCollection, [
-                        'id'    => $request->getId(),
-                        'error' => $responseEntity->getError(),
-                    ]
-                )
-            );
         }
     }
 

@@ -26,8 +26,10 @@ class ResponseEntity
     public function __construct(?RequestCollection $requestCollection, array $responseData)
     {
         if (empty($responseData['id'])) {
-            throw new RuntimeException('response field id is mandatory');
+            throw new RuntimeException(sprintf('response field id is mandatory response : %s', json_encode($responseData)));
         }
+
+        $this->id = $responseData['id'];
 
         if ($requestCollection) {
             $this->request = $requestCollection->getRequestById($responseData['id']);
