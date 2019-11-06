@@ -52,7 +52,7 @@ class ResponseEntity
                 $this->error['code'] = (int)$this->error['code'];
             }
 
-            if (! empty($this->error['message'])) {
+            if (empty($this->error['message'])) {
                 throw new RuntimeException('field error.message is mandatory for error response (should be not empty)');
             }
 
